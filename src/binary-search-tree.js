@@ -51,13 +51,15 @@ class BinarySearchTree {
 
   remove(data) {
     function remove(data, node) {
-      if (!node) return
+      if (!node) return null
 
       if (node.data > data) {
         node.left = remove(data, node.left)
+        return node
       }
       if (node.data < data) {
         node.right = remove(data, node.right)
+        return node
       }
 
       if (node.data === data) {
@@ -70,10 +72,17 @@ class BinarySearchTree {
         if (!node.right) {
           return node.left
         } else {
-          /* todo */
+          let minRightNode = node.right
+          while (minRightNode.left) {
+            minRightNode = minRightNode.left
+          }
+          node.data = minRightNode.data
+          node.right = remove(minRightNode.data, node.right)
+          return node
         }
       }
     }
+    this._root = remove(data, this._root)
   }
 
   min() {
